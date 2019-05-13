@@ -1,0 +1,21 @@
+{
+  "locations": [
+    {
+      "path": "/",
+      "host": "http://website:8080",
+      "modifyResponse": true
+    },
+    {
+      "path": "/api/repos",
+      "host": "http://micro-2:3000"
+    },
+    {
+      "path": "/micro-2/client.js",
+      "host": "http://micro-2:3000"
+    },
+    {
+      "path": "/page-builder/client.js",
+      "host": "http://page-builder:3000"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "Navbar": {
+    "server": "http://micro-1:3000/batch"
+  },
+  "RepoListing": {
+    "server": "http://micro-2:3000/batch"
+  }
+}

@@ -1,0 +1,72 @@
+version: '3.1'
+
+services:
+
+  website:
+    image: node:10-slim
+    ports:
+      - 8000:8080
+    volumes:
+      - ./website:/app
+    working_dir: /app
+    environment:
+      PORT: 8080
+      HOST: '0.0.0.0'
+    command:
+      - yarn
+      - dev
+  
+  micro-1:
+    image: node:10-slim
+    volumes:
+      - ./micro-1:/app
+    working_dir: /app
+    command:
+      - yarn
+      - dev
+    environment:
+      PORT: 3000
+
+  micro-2:
+    image: node:10-slim
+    volumes:
+      - ./micro-2:/app
+    working_dir: /app
+    command:
+      - yarn
+      - dev
+    environment:
+      PORT: 3000
+  
+  page-builder:
+    image: node:10-slim
+    volumes:
+      - ./page-builder:/app
+    working_dir: /app
+    command:
+      - yarn
+      - dev
+    environment:
+      PORT: 3000
+
+  nova-cluster:
+    restart: always
+    build: ./nova-cluster
+    ports:
+      - 3000:8000
+    links:
+      - micro-1
+      - micro-2
+
+  nova-proxy:
+    restart: always
+    build: ./nova-proxy
+    ports:
+      - 8080:8080
+    links:
+      - website
+      - nova-cluster
+    environment:
+      HYPERNOVA_BATCH: http://nova-cluster:8000/batch
+
+    
